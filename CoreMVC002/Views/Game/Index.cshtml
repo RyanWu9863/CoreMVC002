@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Guess the Number Game";
+}
+
+<h2>猜數字遊戲</h2>
+
+<!-- 只在測試期間顯示隱藏的 secretNumber -->
+<!--@if (ViewBag.SecretNumber != null)
+{
+    <p style="color: red;">[Testing] Secret Number: @ViewBag.SecretNumber</p>
+}-->
+
+@if (ViewBag.Message != null)
+
+{
+    <p style="color: green">@ViewBag.Message</p>
+
+    @if (ViewBag.ReplayPrompt != null)
+
+    {
+        <form asp-action="Replay" method="post">
+            <p>@ViewBag.ReplayPrompt</p>
+            <input type="text" name="userChoice" placeholder="Yes or No" required />
+            <input type="submit" value="Submit" />
+        </form>
+    }
+}
+
+else
+
+{
+    <form asp-action="Guess" method="post">
+        <label for="userGuess">輸入4個數字:</label>
+        <input type="text" name="userGuess" required maxlength="4" minlength="4" pattern="\d{4}" />
+        <input type="submit" value="猜!" />
+    </form>
+
+    <h3>您已猜了: @ViewBag.TotalGuesses</h3>
+
+    @if (ViewBag.GuessHistory != null && ViewBag.GuessHistory.Count > 0)
+
+    {
+        <h3>猜測紀錄:</h3>
+        <ul>
+            @foreach (var guess in ViewBag.GuessHistory)
+
+            {
+                <li>@guess</li>
+            }
+        </ul>
+    }
+}
